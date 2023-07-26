@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { AiFillStepBackward, AiFillStepForward } from "react-icons/ai";
-import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import BookForm from "../components/BookForm";
 import Spinner from "../components/Spinner";
 import { getBooks, reset } from "../features/books/bookSlice";
@@ -11,33 +10,19 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  const { books, isLoading, isError, message, totalPages } = useSelector(
+  const { books, isLoading, isError, message } = useSelector(
     (state) => state.book
   );
-
-  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     if (!user) {
       navigate("/login");
     }
-    fetchBooks();
+    getBooks();
     return () => {
       dispatch(reset());
     };
-  }, [user, navigate, dispatch, currentPage]);
-
-  const fetchBooks = async () => {
-    try {
-      await dispatch(getBooks({ page: currentPage, limit: 4 }));
-    } catch (error) {
-      console.error(error); // Handle any error that may occur during the fetch
-    }
-  };
-
-  const handlePageChange = (newPage) => {
-    setCurrentPage(newPage);
-  };
+  }, [user, navigate, dispatch]);
 
   if (isLoading) {
     return <Spinner />;
@@ -52,27 +37,11 @@ const Dashboard = () => {
       <BookForm />
       <section className="content">
         {books.length > 0 ? (
-          <>
-            <div className="goals">
-              {books.map((book) => (
-                <BookItem key={book._id} book={book} />
-              ))}
-            </div>
-            <div className="pagination">
-              <button
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-              >
-                <AiFillStepBackward /> Previous
-              </button>{" "}
-              <button
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage >= totalPages}
-              >
-                Next <AiFillStepForward />
-              </button>
-            </div>
-          </>
+          <div className="goals">
+            {books.map((book) => (
+              <BookItem key={book._id} book={book} />
+            ))}
+          </div>
         ) : (
           <h3>No book is in BookStore</h3>
         )}
