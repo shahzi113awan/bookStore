@@ -1,3 +1,4 @@
 # MERN_APP
-install necessary dependencies
+npm i node-express
+npm i client
 npm run dev to start
