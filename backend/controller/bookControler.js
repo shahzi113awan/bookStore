@@ -3,13 +3,25 @@ const asyncHandler = require('express-async-handler')
 const Book = require('../models/bookModel')
 const User = require('../models/userModel')
 const { error } = require('console')
-// @desc    Get goals
-// @route   Get/api/goals
+// @desc    Get Books
+// @route   GET /api/books
 // @acces   Private
 const getBooks = asyncHandler(async (req, res) => {
-    const books = await Book.find({user: req.user.id})
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const options = {
+        page,
+        limit,
+        sort: {createdAt : -1}// repeat for concept?
+    };
+    const { docs, totalDocs, totalPages } = await Book.paginate({user: req.res.id}, options)
+    // const books = await Book.find({user: req.user.id})
 
-    res.status(200).json(books)
+    res.status(200).json({
+        books: docs,
+        totalDocs,
+        totalPages,
+});
 })
 
 // @desc    Set goal

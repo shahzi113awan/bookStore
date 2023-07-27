@@ -7,6 +7,7 @@ const initialState = {
   isSuccess: false,
   isError: false,
   errorMessage: '',
+  totalPages: null,
 };
 
 // Create new book
@@ -23,11 +24,15 @@ export const createBook = createAsyncThunk('books/create', async (bookData, thun
   }
 });
 
-// Get user books
-export const getBooks = createAsyncThunk('books/getAll', async(_, thunkAPI) => {
+// Get user books with pagination
+export const getBooks = createAsyncThunk('books/getAll', async({page, limit}, thunkAPI) => {
   try {
     const token = thunkAPI.getState().auth.user.token;
-    return await bookService.getBooks(token);
+   const responce =  await bookService.getBooks(token,page,limit);
+   return {
+    books: responce.books,
+    totalPages: responce.totalPages,
+   }
   } catch (error) {
     const message =
       (error.response && error.response.data && error.response.data.message) ||
@@ -87,7 +92,8 @@ export const bookSlice = createSlice({
       .addCase(getBooks.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.books = action.payload;
+        state.books = action.payload.books;
+        state.totalPages = action.payload.totalPages;
       })
       .addCase(getBooks.rejected, (state, action) => {
         state.isLoading = false;
