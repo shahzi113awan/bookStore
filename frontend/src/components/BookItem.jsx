@@ -15,6 +15,20 @@ const BookItem = ({book}) => {
       <h5>{book.price}</h5>
       <button onClick={(e)=>handleClick(e)}><BsFillTrash3Fill/></button>
     </div>
+    // <div className="table">
+    //   <table>
+    //     <tr>
+    //       <th>Book Title</th>
+    //       <th>Book Author</th>
+    //       <th>Book Price</th>
+    //     </tr>
+    //     <tr>
+    //       <td>{book.title}</td>
+    //       <td>{book.author}</td>
+    //       <td>{book.price}</td>
+    //     </tr>
+    //   </table>
+    // </div>
   )
 }
 

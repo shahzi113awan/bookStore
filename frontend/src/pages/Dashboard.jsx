@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { AiFillStepBackward, AiFillStepForward } from "react-icons/ai";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import BookForm from "../components/BookForm";
@@ -62,13 +63,13 @@ const Dashboard = () => {
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
               >
-                Previous
+                <AiFillStepBackward /> Previous
               </button>{" "}
               <button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage >= totalPages}
               >
-                Next Page
+                Next <AiFillStepForward />
               </button>
             </div>
           </>

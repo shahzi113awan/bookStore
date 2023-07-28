@@ -19,12 +19,8 @@ const Header = () => {
         </div>
         <ul>
           {user ? (
-          <li>
-           <button className='btn' onClick={onLogout}>
-             <FaSignOutAlt/>Logout
-             </button>
-                
-          </li>) : (<>
+          <li><button className='btn' onClick={onLogout}><FaSignOutAlt/>Logout</button></li>
+          ) : (<>
            <li>
            <Link to = '/login'>
              <FaSignInAlt/>Login
