@@ -18,7 +18,7 @@ app.use('/api/books', require('./routes/bookRoutes'))
 app.use('/api/users', require('./routes/userRoutes'))
 
 // Using the custom error handling middleware
-app.use(errorHandler) 
+app.use(errorHandler)
 
 // Starting the server and listening on the specified port
 app.listen(port, () => console.log(`server is run on port ${port}`))
