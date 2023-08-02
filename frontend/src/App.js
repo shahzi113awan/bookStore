@@ -7,7 +7,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 
 function App() {
-  console.log("updates")
+
   return (
     <>
     <Router>
